@@ -4,7 +4,8 @@ import requests
 from models.candidate import Candidate
 from models.job import Job
 from utils.pdf_parser import parse_pdf
-from utils.scoring_algorithm import score_candidate
+from utils.scoring_algorithm import score_candidates  # Updated import
+
 
 class CVProcessingService:
     def __init__(self, google_drive_service, google_sheets_service):
@@ -32,7 +33,8 @@ class CVProcessingService:
             required_skills = job.get_required_skills()
 
             # Score candidate
-            score = score_candidate(cv_content, required_skills)
+            # Updated function call
+            score = score_candidates(cv_content, required_skills)
 
             # Store candidate info
             candidate = Candidate(candidate_name, job_id, cv_link, score)
@@ -46,7 +48,8 @@ class CVProcessingService:
     def download_cv(self, cv_link, candidate_name):
         response = requests.get(cv_link)
         if response.status_code == 200:
-            cv_file_path = os.path.join(self.shortlisted_cvs_dir, f"{candidate_name}.pdf")
+            cv_file_path = os.path.join(
+                self.shortlisted_cvs_dir, f"{candidate_name}.pdf")
             with open(cv_file_path, 'wb') as f:
                 f.write(response.content)
             return cv_file_path
@@ -66,6 +69,7 @@ class CVProcessingService:
                 os.rename(os.path.join(self.shortlisted_cvs_dir, f"{candidate.name}.pdf"),
                           os.path.join(self.shortlisted_cvs_dir, new_cv_name))
 
-            shortlisted[job_id] = [{'name': candidate.name, 'score': candidate.score} for candidate in top_candidates]
+            shortlisted[job_id] = [
+                {'name': candidate.name, 'score': candidate.score} for candidate in top_candidates]
 
         return shortlisted
