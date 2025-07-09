@@ -1,0 +1,8 @@
+Flask==2.2.2
+google-auth==2.6.0
+google-auth-oauthlib==0.4.6
+google-api-python-client==2.37.0
+pandas==1.4.2
+PyPDF2==1.26.0
+requests==2.27.1
+numpy==1.22.3
