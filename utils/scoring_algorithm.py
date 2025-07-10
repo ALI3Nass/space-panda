@@ -1,3 +1,25 @@
+def score_candidate(cv_text, required_skills):
+    """
+    Score a single candidate's CV text against required skills.
+
+    Args:
+        cv_text: Text extracted from the CV
+        required_skills: List of required skills
+
+    Returns:
+        Score based on matched skills
+    """
+    score = 0
+    matched_skills = []
+
+    for skill in required_skills:
+        if skill.lower() in cv_text.lower():
+            score += 1
+            matched_skills.append(skill)
+
+    return score, matched_skills
+
+
 def score_candidates(candidates, job_skills):  # Renamed from score_candidate
     scored_candidates = []
 
